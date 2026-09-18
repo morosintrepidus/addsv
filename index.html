@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Số lượng sinh viên</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            width: 700px;
+            max-width: 90%;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #tong {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .chart {
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 100px;
+
+            border-left: 2px solid #333;
+            border-bottom: 2px solid #333;
+
+            padding: 20px 40px 0 40px;
+            margin-top: 30px;
+        }
+
+        .column-group {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .value {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .bar {
+            width: 100px;
+            height: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 10px;
+            font-weight: bold;
+            transition: height 0.5s ease;
+        }
+
+        #barNam {
+            background: #2563eb;
+        }
+
+        #barNu {
+            background: #ec4899;
+        }
+
+        .label {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .percent {
+            margin-top: 3px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Thống kê số lượng sinh viên</h1>
+
+    <div class="input-group">
+        <label>Số sinh viên nam</label>
+        <input type="number" id="nam" min="0" value="20">
+    </div>
+
+    <div class="input-group">
+        <label>Số sinh viên nữ</label>
+        <input type="number" id="nu" min="0" value="30">
+    </div>
+
+    <button onclick="veBieuDo()">Hiển thị biểu đồ</button>
+
+    <h2 id="tong"></h2>
+
+    <div class="chart">
+
+        <div class="column-group">
+            <div class="value" id="valueNam"></div>
+            <div id="barNam" class="bar"></div>
+            <div class="label">Nam</div>
+            <div class="percent" id="percentNam"></div>
+        </div>
+
+        <div class="column-group">
+            <div class="value" id="valueNu"></div>
+            <div id="barNu" class="bar"></div>
+            <div class="label">Nữ</div>
+            <div class="percent" id="percentNu"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function veBieuDo() {
+
+    const nam = Number(document.getElementById("nam").value);
+    const nu = Number(document.getElementById("nu").value);
+
+    if (nam < 0 || nu < 0) {
+        alert("Số lượng sinh viên không được âm");
+        return;
+    }
+
+    const tong = nam + nu;
+
+    document.getElementById("tong").innerText =
+        "Tổng số sinh viên: " + tong;
+
+    const max = Math.max(nam, nu);
+
+    let heightNam = 0;
+    let heightNu = 0;
+
+    if (max > 0) {
+        heightNam = (nam / max) * 250;
+        heightNu = (nu / max) * 250;
+    }
+
+    document.getElementById("barNam").style.height =
+        heightNam + "px";
+
+    document.getElementById("barNu").style.height =
+        heightNu + "px";
+
+    document.getElementById("valueNam").innerText = nam;
+    document.getElementById("valueNu").innerText = nu;
+
+    let percentNam = 0;
+    let percentNu = 0;
+
+    if (tong > 0) {
+        percentNam = (nam / tong * 100).toFixed(1);
+        percentNu = (nu / tong * 100).toFixed(1);
+    }
+
+    document.getElementById("percentNam").innerText =
+        percentNam + "%";
+
+    document.getElementById("percentNu").innerText =
+        percentNu + "%";
+}
+
+veBieuDo();
+</script>
+
+</body>
+</html>
